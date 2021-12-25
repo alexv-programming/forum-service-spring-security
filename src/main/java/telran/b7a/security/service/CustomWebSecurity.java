@@ -34,11 +34,9 @@ public class CustomWebSecurity {
 	public boolean checkIfPasswordExpired(String userName, HttpServletRequest request) {		
 		String method = request.getMethod();
 		String path = request.getServletPath();
-		System.out.println("filter goes");
 		if ("PUT".equalsIgnoreCase(method) && path.matches("/account/password")) {
 			return true;
 		}
-		System.out.println(userName);
 		UserAccount userAccount = aRepository.findById(userName).orElse(null);
 		if(userAccount == null) {
 			return true;
