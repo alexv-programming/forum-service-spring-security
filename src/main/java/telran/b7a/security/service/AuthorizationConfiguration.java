@@ -15,7 +15,8 @@ public class AuthorizationConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers(HttpMethod.POST, "/account/register/**");
+		web.ignoring().antMatchers(HttpMethod.POST, "/account/register/**")
+				;
 	}
 	
 	@Override
@@ -28,7 +29,9 @@ public class AuthorizationConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 //			.antMatchers(HttpMethod.POST, "/account/register")
 //				.permitAll()
-//			.antMatchers("/")
+			.antMatchers("/**")
+		//	.anyRequest()
+				.access("@customSecurity.checkIfPasswordExpired(authentication.name, request)")
 			.antMatchers("/forum/posts/**")
 				.permitAll()
 			.antMatchers("/account/user/{login}/role/{role}")

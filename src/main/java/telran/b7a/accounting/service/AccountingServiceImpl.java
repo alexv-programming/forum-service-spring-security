@@ -1,5 +1,7 @@
 package telran.b7a.accounting.service;
 
+import java.time.LocalDateTime;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,6 +44,7 @@ public class AccountingServiceImpl implements AccountingService {
 		}
 		UserAccount userAccount = modelMapper.map(registerUserDto, UserAccount.class);
 		userAccount.addRole("USER".toUpperCase());
+		userAccount.setPasswordChangeTime(LocalDateTime.now());
 		String password = passwordEncoder.encode(registerUserDto.getPassword());
 		userAccount.setPassword(password);
 		repository.save(userAccount);
@@ -99,6 +102,7 @@ public class AccountingServiceImpl implements AccountingService {
 //		if (userAccount.getLastChangePasswordDate().plus(amountToAdd)) {
 //			
 //		}
+		userAccount.setPasswordChangeTime(LocalDateTime.now());
 		userAccount.setPassword(passwordEncoder.encode(password));
 		repository.save(userAccount);
 	}
